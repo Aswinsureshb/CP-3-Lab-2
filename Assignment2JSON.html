@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button onclick="display_name()">All Names</button><br><br>
+    <button onclick="display_health_issue()">Health Issues</button>
+    <input type="text" id="healthissueinput"><br><br>
+    <input type="radio" name="weight" id="weight1" value="Imperial">Imperial
+    <input type="radio" name="weight" id="weight2" value="Metric">Metric
+    <button onclick="display_weight()">Weight</button><br><br>
+    <button onclick="intelligentfriendly()">Intelligence - Friendly</button><br><br>
+    <button onclick="averageintelligent()">Average Intelligence</button><br><br>
+    <button onclick="averageintelligent4()">Average Intelligence for Child Friendly = 4</button><br><br>
+    <div id="count"></div><br>
+    <hr>
+    <div id="display"></div><br>
+    <hr>
+    <div id="total"></div>
+
+
+    <script>
+
+        function display_name() {
+
+            display = document.getElementById("display")
+
+            var My_url = "https://api.thecatapi.com/v1/breeds";
+
+
+            fetch(My_url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Something went wrong.');
+                    }
+                    return response.json();
+                })
+                .then(Mydata => {
+                    x = 0
+                    Object.values(Mydata).forEach(value => {
+                        x++
+                        display.appendChild(document.createTextNode(value.name));
+                        display.appendChild(document.createElement('br'));
+                        // display_data=value.origin;
+
+                        //display.append(document.createElement('p').innerHTML=display_data);
+
+                    });
+                    document.getElementById("count").innerHTML = "TotalCat: " + x
+
+                })
+                .catch(error => {
+                    console.error('Error fetching JSON:', error);
+                });
+
+        }
+
+        function display_health_issue() {
+
+            display = document.getElementById("display")
+            healthissueinput = document.getElementById("healthissueinput").value
+
+            var My_url = "https://api.thecatapi.com/v1/breeds";
+
+
+            fetch(My_url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Something went wrong.');
+                    }
+                    return response.json();
+                })
+                .then(Mydata => {
+                    x = 0
+                    Object.values(Mydata).forEach(value => {
+                        if (healthissueinput == value.health_issues) {
+                            x++
+
+                            display.appendChild(document.createTextNode(value.name));
+                            display.appendChild(document.createElement('br'));
+                        }
+
+                        // display_data=value.origin;
+
+                        //display.append(document.createElement('p').innerHTML=display_data);
+
+                    });
+
+                    document.getElementById("count").innerHTML = "Health issues for: " + healthissueinput
+                    document.getElementById("total").innerHTML = "Total: " + x
+
+
+                })
+                .catch(error => {
+                    console.error('Error fetching JSON:', error);
+                });
+
+        }
+
+        function display_weight() {
+
+            display = document.getElementById("display")
+            weight1 = document.getElementById("weight1")
+            weight2 = document.getElementById("weight2")
+            var My_url = "https://api.thecatapi.com/v1/breeds";
+
+
+            fetch(My_url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Something went wrong.');
+                    }
+                    return response.json();
+                })
+                .then(Mydata => {
+                    x = 0
+                    Object.values(Mydata).forEach(value => {
+                        x++
+                        if (weight1.checked) {
+                            display.appendChild(document.createTextNode(value.weight.imperial));
+                            display.appendChild(document.createElement('br'));
+                            document.getElementById("count").innerHTML = "Weights in Imperial: "
+                        }
+                        else if (weight2.checked) {
+                            display.appendChild(document.createTextNode(value.weight.metric));
+                            display.appendChild(document.createElement('br'));
+                            document.getElementById("count").innerHTML = "Weights in Metric: "
+                        }
+
+                        // display_data=value.origin;
+
+                        //display.append(document.createElement('p').innerHTML=display_data);
+
+                    });
+
+
+                })
+                .catch(error => {
+                    console.error('Error fetching JSON:', error);
+                });
+
+        }
+
+        function intelligentfriendly() {
+
+            display = document.getElementById("display")
+
+            var My_url = "https://api.thecatapi.com/v1/breeds";
+
+
+            fetch(My_url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Something went wrong.');
+                    }
+                    return response.json();
+                })
+                .then(Mydata => {
+                    x = 0
+                    Object.values(Mydata).forEach(value => {
+                        x++
+                        display.appendChild(document.createTextNode(value.intelligence + "   ,   "));
+
+
+                        display.appendChild(document.createTextNode(value.child_friendly));
+                        display.appendChild(document.createElement('br'));
+                        // display_data=value.origin;
+
+                        //display.append(document.createElement('p').innerHTML=display_data);
+
+                    });
+                    document.getElementById("count").innerHTML = "I " + " F"
+                })
+                .catch(error => {
+                    console.error('Error fetching JSON:', error);
+                });
+
+        }
+
+        function averageintelligent() {
+
+            display = document.getElementById("display")
+
+
+
+            var My_url = "https://api.thecatapi.com/v1/breeds";
+
+
+            fetch(My_url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Something went wrong.');
+                    }
+                    return response.json();
+                })
+                .then(Mydata => {
+                    sum = 0
+                    x = 0
+                    Object.values(Mydata).forEach(value => {
+                        x++
+                        sum = sum + value.intelligence
+
+                        avg = sum / x
+                        // display.appendChild(document.createTextNode(avg));
+                        //display.appendChild(document.createElement('br'));
+                        // var intelligentvalue = My_url.map(item => item.intelligence);
+                        avg = avg.toFixed(2);
+
+                        // display_data=value.origin;
+
+                        //display.append(document.createElement('p').innerHTML=display_data);
+
+                    });
+                    document.getElementById("count").innerHTML = "Average Intelligence:  " + avg
+
+
+                })
+                .catch(error => {
+                    console.error('Error fetching JSON:', error);
+                });
+
+        }
+
+        function averageintelligent4() {
+
+            display = document.getElementById("display")
+
+            var My_url = "https://api.thecatapi.com/v1/breeds";
+
+
+
+            fetch(My_url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Something went wrong.');
+                    }
+                    return response.json();
+                })
+                .then(Mydata => {
+                    sum = 0
+                    x = 0
+                    Object.values(Mydata).forEach(value => {
+                        x++
+                        if (value.child_friendly == 4) {
+                            //display.appendChild(document.createTextNode(value.intelligence));
+                           // display.appendChild(document.createElement('br'));
+                            sum = sum + value.intelligence
+                            avg = sum/x
+                            avg = avg.toFixed(2);
+                            
+                        }
+
+                            
+
+
+                    });
+                    document.getElementById("count").innerHTML = "Average Intelligence:  " + avg
+                })
+                .catch(error => {
+                    console.error('Error fetching JSON:', error);
+                });
+
+        }
+    </script>
+</body>
+
+</html>
